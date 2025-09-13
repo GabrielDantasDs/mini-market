@@ -22,6 +22,13 @@ type Product struct {
 	Code  string
 }
 
+type Transaction struct {
+	gorm.Model
+	IdProduct uint
+	IdUser    uint
+	Price     int
+}
+
 func migrate() {
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 
@@ -29,7 +36,7 @@ func migrate() {
 		panic("failed to connect database")
 	}
 
-	db.AutoMigrate(&User{}, &Product{})
+	db.AutoMigrate(&User{}, &Product{}, &Transaction{})
 }
 
 func InsertUser(user types.User) (uint, error) {
@@ -216,4 +223,48 @@ func ReadProducts() ([]Product, error) {
 	db.Find(&productsModels)
 
 	return productsModels, nil
+}
+
+// Transaction CRUD
+
+func InsertTransaction(idUser uint, transaction types.TransactionCreateDto) (uint, error) {
+	migrate()
+
+	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	transactionModel := Transaction{IdProduct: uint(transaction.IdProduct), IdUser: idUser, Price: int(transaction.Price)}
+
+	db.Create(&transactionModel)
+
+	return transactionModel.ID, nil
+}
+
+func InsertTransactions(idUser uint, transactions []types.TransactionCreateDto) ([]uint, error) {
+	migrate()
+
+	var createdTransactions []uint
+
+	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	db.Transaction(func(tx *gorm.DB) error {
+		for _, transaction := range transactions {
+			transactionModel := Transaction{IdProduct: uint(transaction.IdProduct), IdUser: idUser, Price: int(transaction.Price)}
+
+			db.Create(&transactionModel)
+
+			createdTransactions = append(createdTransactions, transactionModel.ID)
+		}
+
+		return nil
+	})
+
+	return createdTransactions, nil
 }

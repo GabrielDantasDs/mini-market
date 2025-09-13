@@ -38,13 +38,11 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 	err = bcrypt.CompareHashAndPassword([]byte(db_user.Password), []byte(req.Password))
 
 	if err != nil {
-		fmt.Println(err)
-		fmt.Println(db_user.Password)
 		http.Error(w, "Not authorized", http.StatusUnauthorized)
 		return
 	}
 
-	tokenStr, err := auth.GenreateJwt(user)
+	tokenStr, err := auth.GenreateJwt(types.UserAuth{Id: db_user.ID, Name: db_user.Name, Email: db_user.Email})
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
@@ -182,7 +180,6 @@ func deleteUserHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func getUserHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("teste1")
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -233,11 +230,6 @@ func createProductHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
 		return
 	}
-
-	// product := types.ProductCreateDto{
-	// 	Name:  req.Name,
-	// 	Price: float64(req.Price),
-	// }
 
 	id_created_product, err := controller.CreateProduct(req)
 
@@ -321,7 +313,6 @@ func deleteProductHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func getProductHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Teste2")
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -354,7 +345,6 @@ func getProductHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func getAllProductHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("teste")
 	products, err := controller.GetAllProduct()
 
 	if err != nil {
@@ -364,6 +354,38 @@ func getAllProductHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(products); err != nil {
+		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
+	}
+}
+
+func createTransactionHandle(w http.ResponseWriter, r *http.Request) {
+
+	idUser, ok := auth.UserFrom(r.Context())
+
+	if !ok {
+		http.Error(w, "unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	var req []types.TransactionCreateDto
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
+		return
+	}
+
+	fmt.Println(idUser)
+	fmt.Println(req)
+
+	transaction, err := controller.CreateTransactions(idUser, req)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(transaction); err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
 	}
 }

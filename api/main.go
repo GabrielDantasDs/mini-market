@@ -34,15 +34,17 @@ func main() {
 	router.HandleFunc("/products/update/{id}", auth.JwtValidate(updateProductHandler)).Methods("PATCH")
 	router.HandleFunc("/products/{id}", auth.JwtValidate(getProductHandler)).Methods("GET")
 
+	router.Handle("/account/add", auth.JwtValidate(createTransactionHandle)).Methods("POST", "OPTIONS")
+
 	fmt.Println("Server running on port 8000")
 	log.Fatal(http.ListenAndServe(":8000", router))
 }
 
 func corsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, ngrok-skip-browser-warning")
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 
 		// Se for preflight, retorna 200 sem chamar o handler

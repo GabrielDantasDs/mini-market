@@ -10,6 +10,13 @@ type User struct {
 	Password string
 }
 
+type UserAuth struct {
+	Id       uint
+	Name     string
+	Email    string
+	Password string
+}
+
 type Product struct {
 	Name  string
 	Price int
@@ -31,4 +38,9 @@ type ProductUpdateDto struct {
 type LoginRequest struct {
 	Email    string
 	Password string
+}
+
+type TransactionCreateDto struct {
+	IdProduct int     `json:"id"`
+	Price     float64 `json:"price"`
 }
