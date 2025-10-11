@@ -11,6 +11,7 @@ import (
 
 	"github.com/GabrielDantasDs/mini-market/auth"
 	"github.com/GabrielDantasDs/mini-market/controller"
+	"github.com/GabrielDantasDs/mini-market/services"
 	"github.com/GabrielDantasDs/mini-market/types"
 	"github.com/gorilla/mux"
 )
@@ -388,4 +389,24 @@ func createTransactionHandle(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewEncoder(w).Encode(transaction); err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
 	}
+}
+
+func createProduct(w http.ResponseWriter, r *http.Request) {
+	idUser, ok := auth.UserFrom(r.Context())
+
+	if !ok {
+		http.Error(w, "unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	is_admin, err := services.CheckIsAdmin(idUser)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
+		return
+	}
+
+	response := types.Response{Msg: strconv.FormatBool(is_admin)}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
 }

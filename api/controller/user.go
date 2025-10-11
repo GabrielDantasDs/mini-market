@@ -51,7 +51,7 @@ func GetUser(id uint) (database.User, error) {
 }
 
 func GetUserByEmail(email string) (database.User, error) {
-		user, err := database.ReadUserByEmail(email)
+	user, err := database.ReadUserByEmail(email)
 
 	if err != nil {
 		return database.User{}, errors.New("fail on delete user")
@@ -59,3 +59,4 @@ func GetUserByEmail(email string) (database.User, error) {
 
 	return user, nil
 }
+

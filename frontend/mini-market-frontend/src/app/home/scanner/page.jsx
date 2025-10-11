@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Quagga from "quagga";
 import { getProducts } from "../products/api/route";
 import Swal from "sweetalert2";
@@ -8,6 +8,7 @@ import { useCart } from "@/components/CartContext";
 import { canvas } from "framer-motion/client";
 import { imageCanvaTreatment } from "@/app/utils";
 import { Trash } from "iconoir-react";
+import { useUser } from "@/components/UserContext";
 
 export default function Scanner() {
 	const { cart, dispatch } = useCart();
@@ -16,6 +17,7 @@ export default function Scanner() {
 	const [mode, setMode] = useState("ImageStream");
 	const [image, setImage] = useState(null);
 	const canvasRef = useRef(null);
+	const { user } = useUser();
 
 	useEffect(() => {
 		getProducts()

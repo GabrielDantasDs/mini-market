@@ -19,6 +19,7 @@
     "quagga": "^0.12.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-redux": "^9.2.0",
     "sweetalert2": "^11.22.5"
   },
   "devDependencies": {

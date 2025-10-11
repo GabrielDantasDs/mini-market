@@ -8,7 +8,6 @@ export function middleware(request: NextRequest) {
 	if (!token && request.nextUrl.pathname.startsWith("/home")) {
 		return NextResponse.redirect(new URL("/login", request.url));
 	} else if (token && request.nextUrl.pathname === "/login" || (token && request.nextUrl.pathname === "/")) {
-		console.log('teste');
 		return NextResponse.redirect(new URL("/home", request.url));
 	}
 

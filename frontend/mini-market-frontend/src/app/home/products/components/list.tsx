@@ -31,7 +31,7 @@ export default function List() {
 				if (res.status == 200) {
 					const data = res.data.map((product: Product) => {
 						product.Available = true;
-						console.log(cart)
+
 						if (cart.length > 0 && cart.find(item => item.code == product.Code)) {
 							product.Available = false
 						}
@@ -43,7 +43,6 @@ export default function List() {
 				}
 			})
 			.catch((err) => {
-				console.log(err)
 				Swal.fire("Ops", "Something went wrong", "error");
 				return;
 			});

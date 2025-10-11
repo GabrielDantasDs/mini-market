@@ -6,6 +6,8 @@ import { login } from "@/app/api/route";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Swal from "sweetalert2";
+import { User } from "@/reducers/userReducer";
+import { useUser } from "@/components/UserContext";
 
 type loginForm = {
 	email: string;
@@ -14,17 +16,60 @@ type loginForm = {
 
 export default function Home() {
 	const router = useRouter();
+	const { dispatch } = useUser();
 
 	const onSubmit = async (values: loginForm) => {
-		await login(values).then(res => {
-			if (res.status == 200) {
-				router.push("/home");
-			}
-		}).catch(err => {
-			console.log(err)
-			Swal.fire('Ops', err.response.data, 'error');
-			return
-		})
+		await login(values)
+			.then((res) => {
+				if (res.status == 200) {
+					// try to decode JWT from response (response.data.msg)
+					const token = res.data?.msg;
+					if (token) {
+						const decodeJwt = (t: string) => {
+							try {
+								const base64Url = t.split(".")[1];
+								const base64 = base64Url
+									.replace(/-/g, "+")
+									.replace(/_/g, "/");
+								const jsonPayload = decodeURIComponent(
+									atob(base64)
+										.split("")
+										.map(
+											(c) =>
+												"%" +
+												(
+													"00" +
+													c.charCodeAt(0).toString(16)
+												).slice(-2)
+										)
+										.join("")
+								);
+								return JSON.parse(jsonPayload);
+							} catch (e) {
+								return null;
+							}
+						};
+
+						const payload = decodeJwt(token);
+
+						if (payload) {
+							const loggedUser: User = {
+								id: Number(payload.sub) || 0,
+								name: payload.name || "",
+								type: "user",
+							};
+							dispatch({ type: "LOGIN", user: loggedUser });
+						}
+					}
+
+					router.push("/home");
+				}
+			})
+			.catch((err) => {
+
+				Swal.fire("Ops", err.response.data, "error");
+				return;
+			});
 	};
 
 	return (
@@ -144,8 +189,7 @@ export default function Home() {
 					)}
 				</Formik>
 				<p className="mt-6 text-sm text-gray-500">
-					Don't have an account?{" "}
-					<Link href="/register">Sign Up</Link>
+					Don't have an account? <Link href="/register">Sign Up</Link>
 				</p>
 			</div>
 		</div>

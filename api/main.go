@@ -29,6 +29,7 @@ func main() {
 
 	router.HandleFunc("/products", auth.JwtValidate(createProductHandler)).Methods("POST")
 	//Products
+	router.Handle("/products", auth.JwtValidate(createProductHandler)).Methods("POST", "OPTIONS")
 	router.HandleFunc("/products/list", auth.JwtValidate(getAllProductHandler)).Methods("GET", "OPTIONS")
 	router.HandleFunc("/products/delete/{id}", auth.JwtValidate(deleteProductHandler)).Methods("DELETE")
 	router.HandleFunc("/products/update/{id}", auth.JwtValidate(updateProductHandler)).Methods("PATCH")
