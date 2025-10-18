@@ -18,8 +18,10 @@ export default function Scanner() {
 	const [image, setImage] = useState(null);
 	const canvasRef = useRef(null);
 	const { user } = useUser();
+	const [isAdimn, setIsAdmin] = useState(false);
 
 	useEffect(() => {
+		console.log(user)
 		getProducts()
 			.then((res) => {
 				if (res.status == 200) {
