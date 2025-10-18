@@ -54,9 +54,7 @@ export default function Home() {
 
 						if (payload) {
 							const loggedUser: User = {
-								id: Number(payload.sub) || 0,
-								name: payload.name || "",
-								type: "user",
+								type: payload.type
 							};
 							dispatch({ type: "LOGIN", user: loggedUser });
 						}

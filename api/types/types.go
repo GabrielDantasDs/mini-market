@@ -15,6 +15,7 @@ type UserAuth struct {
 	Name     string
 	Email    string
 	Password string
+	Type     string
 }
 
 type Product struct {

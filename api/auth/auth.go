@@ -60,7 +60,7 @@ func GenreateJwt(user types.UserAuth) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"iss":  "mini-market-server",
 		"sub":  fmt.Sprintf("%d", user.Id),
-		"name": user.Name,
+		"type": user.Type,
 		"exp":  exp.Unix(),
 	})
 

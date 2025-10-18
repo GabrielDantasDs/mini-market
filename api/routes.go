@@ -43,7 +43,7 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tokenStr, err := auth.GenreateJwt(types.UserAuth{Id: db_user.ID, Name: db_user.Name, Email: db_user.Email})
+	tokenStr, err := auth.GenreateJwt(types.UserAuth{Id: db_user.ID, Name: db_user.Name, Email: db_user.Email, Type: db_user.Type})
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)

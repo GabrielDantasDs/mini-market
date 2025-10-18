@@ -18,10 +18,11 @@ export default function Scanner() {
 	const [image, setImage] = useState(null);
 	const canvasRef = useRef(null);
 	const { user } = useUser();
-	const [isAdimn, setIsAdmin] = useState(false);
+	const [isAdmin, setIsAdmin] = useState(false);
+	const [isAddProduct, setAddProduct] = useState(false);
+	const [isAddProductOpen, setIsAddProductOpen] = useState(false);
 
 	useEffect(() => {
-		console.log(user)
 		getProducts()
 			.then((res) => {
 				if (res.status == 200) {
@@ -32,6 +33,14 @@ export default function Scanner() {
 				Swal.fire("Ops", "Houve um erro");
 			});
 	}, []);
+
+	useEffect(() => {
+		if (user?.type == "ADMIN") {
+			setIsAdmin(true);
+		} else {
+			setIsAdmin(false)
+		}
+	}, [user]);
 
 	useEffect(() => {
 		if (mode == "LiveStream") {
@@ -76,6 +85,11 @@ export default function Scanner() {
 			Quagga.onDetected((result) => {
 				const _code = result.codeResult.code;
 				setCode(_code);
+
+				if (isAddProduct) {
+					setIsAddProductOpen(true);
+				}
+
 				Quagga.stop(); // stop after first detection
 			});
 			// Cleanup on unmount
@@ -137,6 +151,11 @@ export default function Scanner() {
 		setImage(null);
 	};
 
+	const addProduct = () => {
+		setAddProduct(true);
+		setMode("LiveStream");
+	};
+
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 text-black">
 			{code ? (
@@ -162,7 +181,7 @@ export default function Scanner() {
 								<div className="inline-flex">
 									<canvas ref={canvasRef}></canvas>
 									<button
-										className="inline-flex items-center px-4 py-2 bg-red-600 text-white font-medium rounded-lg cursor-pointer hover:bg-red-700"
+										className="inline-flex items-center px-4 py-2 bg-red-600 text-white font-medium rounded-lg cursor-pointer hover:bg-red-700 "
 										onClick={(e) => {
 											e.preventDefault();
 											removeImage();
@@ -171,29 +190,27 @@ export default function Scanner() {
 										<Trash></Trash>
 									</button>
 								</div>
-							) : (
-								<label className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg cursor-pointer hover:bg-blue-700 mr-2">
-									Upload File
-									<input
-										type="file"
-										accept="image/*"
-										className="hidden mb-4"
-										onChange={(e) => {
-											e.preventDefault();
-											handleFileChange(e);
-										}}
-									/>
-								</label>
-							)}
+							) : null}
 							{!image ? (
 								<button
-									className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg cursor-pointer hover:bg-blue-700"
+									className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg cursor-pointer hover:bg-blue-700 mr-2"
 									onClick={(e) => {
 										e.preventDefault();
 										changeMode();
 									}}
 								>
 									Scan mode
+								</button>
+							) : null}
+							{isAdmin ? (
+								<button
+									className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg cursor-pointer hover:bg-blue-700"
+									onClick={(e) => {
+										e.preventDefault();
+										addProduct();
+									}}
+								>
+									Add product
 								</button>
 							) : null}
 						</div>
