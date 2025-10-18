@@ -7,7 +7,7 @@ export default function HomeDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center py-12">
-      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-lg flex flex-col items-center">
+      <div className="bg-white rounded-xl shadow-lg p-8 m-2 flex flex-col items-cente">
         <h1 className="text-3xl font-bold text-blue-700 mb-4">Mini-market Dashboard</h1>
         <div className="flex flex-col sm:flex-row gap-8 w-full justify-center mt-8">
           <div className="flex-1 bg-blue-50 rounded-lg p-6 flex flex-col items-center shadow">

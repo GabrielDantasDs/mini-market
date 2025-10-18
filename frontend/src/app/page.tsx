@@ -74,7 +74,7 @@ export default function Home() {
 
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-black">
-			<div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md flex flex-col items-center">
+			<div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md flex flex-col items-center m-2">
 				{/* Market cart icon */}
 				<div className="mb-4">
 					<Image
