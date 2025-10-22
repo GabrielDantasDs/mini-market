@@ -39,7 +39,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 				setIsOpen(true);
 			}
 		};
-
+		console.log("teste de deploy");
 		checkDevice(); // check on mount
 		window.addEventListener("resize", checkDevice);
 
