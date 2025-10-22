@@ -2,6 +2,8 @@ package database
 
 import (
 	"errors"
+	"fmt"
+	"os"
 
 	"github.com/GabrielDantasDs/mini-market/types"
 	"gorm.io/driver/sqlite"
@@ -13,7 +15,7 @@ type User struct {
 	Name     string
 	Email    string
 	Password string
-	Type string
+	Type     string
 }
 
 type Product struct {
@@ -31,10 +33,13 @@ type Transaction struct {
 }
 
 func migrate() {
+	dir, _ := os.Getwd()
+	fmt.Println("Current working directory:", dir)
+
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 
 	if err != nil {
-		panic("failed to connect database")
+		panic(err.Error())
 	}
 
 	db.AutoMigrate(&User{}, &Product{}, &Transaction{})
