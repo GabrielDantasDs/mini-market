@@ -3,7 +3,7 @@ name: Deploy Mini Market API
 on:
   push:
     branches:
-      - main  # roda o deploy quando houver push na branch main
+      - master  # roda o deploy quando houver push na branch main
   workflow_dispatch:
 jobs:
   deploy:
