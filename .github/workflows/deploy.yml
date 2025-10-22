@@ -20,7 +20,7 @@ jobs:
 
       - name: Compilar binário para Linux
         run: |
-          CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o ./api/app ./api/app
+          CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o ./api ./api
 
       - name: Enviar binário e arquivos para EC2
         uses: appleboy/scp-action@v0.1.7
@@ -28,7 +28,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "./api/app"
+          source: "./api"
           target: "/home/ubuntu/mini-market/api"
 
       - name: Reiniciar serviço na EC2
