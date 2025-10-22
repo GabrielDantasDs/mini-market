@@ -20,7 +20,6 @@ jobs:
 
       - name: Compilar binário para Linux
         run: |
-          cd api
           CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o ./api/app ./api/app
 
       - name: Enviar binário e arquivos para EC2
