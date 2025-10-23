@@ -2,12 +2,14 @@ import { Product } from "@/reducers/cartReducer";
 import api from "../../../../../../router";
 
 type ProductDto = {
-	id: number;
-	price: number;
+  id: number;
+  price: number;
 };
 
 export function addToAccount(form: ProductDto[]) {
-    const response = api.post("/account/add", form);
+  const response = api.post("/account/add", form);
 
-    return response;
+  return response;
 }
+
+export default addToAccount;

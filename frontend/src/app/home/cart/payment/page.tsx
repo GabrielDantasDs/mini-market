@@ -2,11 +2,11 @@
 
 import { Copy, Wallet } from "iconoir-react";
 import Swal from "sweetalert2";
-import { addToAccount } from "./api/route";
+import { addToAccount } from "./api/client";
 import { useCart } from "@/components/CartContext";
 import { useRouter } from "next/navigation";
 
-export default function payment() {
+export default function Payment() {
 	const { cart, dispatch } = useCart();
 	const router = useRouter();
 

@@ -134,7 +134,7 @@ export default function Home() {
 					)}
 				</Formik>
 				<p className="mt-6 text-sm text-gray-500">
-					Don't have an account?{" "}
+					Dont have an account?
 					<a href="#" className="text-blue-600 hover:underline">
 						Sign up
 					</a>

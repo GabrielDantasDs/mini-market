@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { getProducts } from "../api/route";
+import { getProducts } from "../api/client";
 import { formatToBRL } from "@/app/utils";
 import { Cart } from "iconoir-react";
 import { useCart } from "@/components/CartContext";

@@ -187,7 +187,7 @@ export default function Home() {
 					)}
 				</Formik>
 				<p className="mt-6 text-sm text-gray-500">
-					Don't have an account? <Link href="/register">Sign Up</Link>
+					Dont have an account? <Link href="/register">Sign Up</Link>
 				</p>
 			</div>
 		</div>

@@ -2,7 +2,7 @@
 
 import { useContext, useEffect, useRef, useState } from "react";
 import Quagga from "quagga";
-import { getProducts } from "../products/api/route";
+import { getProducts } from "../products/api/client";
 import Swal from "sweetalert2";
 import { useCart } from "@/components/CartContext";
 import { canvas } from "framer-motion/client";

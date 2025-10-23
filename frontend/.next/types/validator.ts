@@ -36,16 +36,6 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
   viewport?: any
 }
 
-type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRoutes> = {
-  GET?: (request: NextRequest, context: { params: Promise<ParamMap[Route]> }) => Promise<Response | void> | Response | void
-  POST?: (request: NextRequest, context: { params: Promise<ParamMap[Route]> }) => Promise<Response | void> | Response | void
-  PUT?: (request: NextRequest, context: { params: Promise<ParamMap[Route]> }) => Promise<Response | void> | Response | void
-  PATCH?: (request: NextRequest, context: { params: Promise<ParamMap[Route]> }) => Promise<Response | void> | Response | void
-  DELETE?: (request: NextRequest, context: { params: Promise<ParamMap[Route]> }) => Promise<Response | void> | Response | void
-  HEAD?: (request: NextRequest, context: { params: Promise<ParamMap[Route]> }) => Promise<Response | void> | Response | void
-  OPTIONS?: (request: NextRequest, context: { params: Promise<ParamMap[Route]> }) => Promise<Response | void> | Response | void
-}
-
 
 // Validate ../../src/app/home/cart/page.tsx
 {
@@ -83,17 +73,7 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies AppPageConfig<"/register">
 }
 
-// Validate ../../src/app/home/cart/payment/api/route.ts
-{
-  const handler = {} as typeof import("../../src/app/home/cart/payment/api/route.js")
-  handler satisfies RouteHandlerConfig<"/home/cart/payment/api">
-}
 
-// Validate ../../src/app/home/products/api/route.ts
-{
-  const handler = {} as typeof import("../../src/app/home/products/api/route.js")
-  handler satisfies RouteHandlerConfig<"/home/products/api">
-}
 
 
 

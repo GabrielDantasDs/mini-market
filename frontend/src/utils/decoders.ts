@@ -16,7 +16,7 @@ function toNumber(value: unknown): number | null {
 export function parseUserPayload(payload: unknown): User {
   if (!isObject(payload)) throw new Error("Invalid payload: not an object");
 
-  const type = (payload as any).type;
+  const type = (payload).type;
 
   if (typeof type !== "string") throw new Error("Invalid user type");
 
