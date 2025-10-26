@@ -8,6 +8,7 @@ import Link from "next/link";
 import Swal from "sweetalert2";
 import { User } from "@/reducers/userReducer";
 import { useUser } from "@/components/UserContext";
+import { useEffect } from "react";
 
 type loginForm = {
 	email: string;
@@ -69,6 +70,10 @@ export default function Home() {
 				return;
 			});
 	};
+
+	useEffect(() => {
+		console.log(process.env.NEXT_PUBLIC_API_URL)
+	}, []);
 
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-black">
