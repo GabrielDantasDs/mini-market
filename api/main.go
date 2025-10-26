@@ -15,7 +15,7 @@ func main() {
 	// IMPORTANT: you must specify an OPTIONS method matcher for the middleware to set CORS headers
 	router.Use(corsMiddleware)
 
-	router.HandleFunc("/", auth.JwtValidate(homeHandler)).Methods("GET")
+	router.HandleFunc("/", homeHandler).Methods("GET")
 
 	router.HandleFunc("/login", loginHandler).Methods("POST", "OPTIONS")
 
