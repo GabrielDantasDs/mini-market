@@ -107,7 +107,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 						Products
 					</Link>
 					<Link
-						href="/profile"
+						href="/home/profile"
 						className="hover:text-blue-500 text-black"
 					>
 						Profile
